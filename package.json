@@ -1,0 +1,24 @@
+{
+  "name": "receptor",
+  "version": "1.0.0",
+  "description": "Recipes",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "lerna run start --parallel"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/FlomoN/receptor.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/FlomoN/receptor/issues"
+  },
+  "homepage": "https://github.com/FlomoN/receptor#readme",
+  "devDependencies": {
+    "lerna": "^4.0.0"
+  }
+}
