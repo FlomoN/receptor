@@ -6,7 +6,9 @@ const router = express.Router();
 
 router.get("/", async (req, res) => {
   try {
-    const query = await prisma.recipe.findMany();
+    const query = await prisma.recipe.findMany({
+      include: { ingredients: { include: { Ingredient: true } } },
+    });
     res.json(query);
   } catch (e) {
     console.log(e);
@@ -39,6 +41,7 @@ router.get("/:id", async (req, res) => {
   try {
     const result = await prisma.recipe.findFirst({
       where: { id: Number(req.params.id) },
+      include: { ingredients: { include: { Ingredient: true } } },
     });
     if (result == null) {
       res.status(404).end();
@@ -89,6 +92,20 @@ router.put("/:id", async (req, res) => {
             ingredientId: matchIngredient.id,
           };
         }
+      })
+    );
+
+    //Delete old ingredientMapping
+    const oldMappings = await prisma.recipe.findFirst({
+      where: { id: Number(req.params.id) },
+      include: {
+        ingredients: true,
+      },
+    });
+
+    await Promise.all(
+      oldMappings!.ingredients.map(async (elem) => {
+        await prisma.ingredientUsage.delete({ where: { id: elem.id } });
       })
     );
 
